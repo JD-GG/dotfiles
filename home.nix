@@ -2,17 +2,25 @@
 
     home.packages = with pkgs; [ 
         vscode
-        git
         gh
+        python3
     ];
 
+    programs.git = {
+      enable = true;
+      userEmail = "jandavid555@gmail.com";
+      userName = "JD-GG";
+      extraConfig = {
+        push.autoSetupRemote = true;
+      };
+    };
 
 
     home.username = "jd";
     home.homeDirectory = "/home/jd";
     home.shellAliases = {
       dev = "cd /home/jd/Documents/GitHub";
-      switch = "sudo nixos-rebuild switch --flake /home/jd/dotfile#";
+      switch = "sudo nixos-rebuild switch --flake /home/jd/dotfiles#";
     };
 
     programs.home-manager.enable = true;
