@@ -21,11 +21,6 @@
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
   
-  # Newest kernel Packages by DeepSeek
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelModules = [ "hid_multitouch" "usbhid" ];
-  environment.systemPackages = with pkgs; [ libinput ];
-  
 
   networking.hostName = "JD-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

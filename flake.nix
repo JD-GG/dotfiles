@@ -1,6 +1,8 @@
 {
     description = "A very basic flake";
 
+    inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";#surface-flake
+
     inputs = {
 
         home-manager = {
@@ -12,7 +14,7 @@
         nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     };
 
-    outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
+    outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, ... }@inputs:
         let
             system = "x86_64-linux";
             pkgs = import nixpkgs {
@@ -43,6 +45,7 @@
                             };
 
                         }
+                        nixos-hardware.nixosModules.microsoft-surface-pro-intel
                     ];
                 };
             };
