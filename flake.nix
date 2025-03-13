@@ -12,9 +12,11 @@
 
         nixpkgs.url = "nixpkgs/nixos-24.11";
         nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+
+        nix-gaming.url = "github:fufexan/nix-gaming";
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, ... }@inputs:
+    outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, nix-gaming, ... }@inputs:
         let
             system = "x86_64-linux";
             pkgs = import nixpkgs {
@@ -46,6 +48,12 @@
 
                         }
                         nixos-hardware.nixosModules.microsoft-surface-pro-intel
+                        # Add osu-stable here
+                        {
+                            environment.systemPackages = [
+                                nix-gaming.packages.${system}.osu-stable
+                            ];
+                        }
                     ];
                 };
             };
