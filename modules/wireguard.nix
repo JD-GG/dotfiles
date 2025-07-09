@@ -13,6 +13,37 @@
       # Path to the private key file.
       privateKeyFile = "/etc/home-vpn.key";
 
+      postUp = ''
+        # Mark packets on the wg0 interface
+        wg set wg0 fwmark 51820
+
+        # Forbid anything else which doesn't go through wireguard VPN on
+        # ipV4 and ipV6
+        ${pkgs.iptables}/bin/iptables -A OUTPUT \
+          ! -o wg0 \
+          -m mark ! --mark $(wg show wg0 fwmark) \
+          -m addrtype ! --dst-type LOCAL \
+          -j REJECT
+        ${pkgs.iptables}/bin/ip6tables -A OUTPUT \
+          ! -o wg0 \
+          -m mark ! --mark $(wg show wg0 fwmark) \
+          -m addrtype ! --dst-type LOCAL \
+          -j REJECT
+      '';
+
+      postDown = ''
+        ${pkgs.iptables}/bin/iptables -D OUTPUT \
+          ! -o wg0 \
+          -m mark ! --mark $(wg show wg0 fwmark) \
+          -m addrtype ! --dst-type LOCAL \
+          -j REJECT
+        ${pkgs.iptables}/bin/ip6tables -D OUTPUT \
+          ! -o wg0 -m mark \
+          ! --mark $(wg show wg0 fwmark) \
+          -m addrtype ! --dst-type LOCAL \
+          -j REJECT
+      '';
+
       peers = [{
         publicKey = "sH/8gn34B1zrZsVhUT0cL4/gL3kldVVWC26ydS78fwQ=";
         presharedKey = "djG2MOxquwlzf+MpdsaXz6Dt6y1ZGpl9t/OuwKFjrBQ=";
