@@ -4,7 +4,7 @@
     server_ip = "213.153.88.123";
   in {
     wg0 = {
-      ips = [ "192.168.178.202/24" ];
+      address = [ "192.168.178.202/24" ];
 
       # To match firewall allowedUDPPorts (without this wg
       # uses random port numbers).
