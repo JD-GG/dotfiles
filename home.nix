@@ -4,6 +4,7 @@
         vscode
         gh
         python3
+        flameshot
     ];
 
     programs.git = {
@@ -27,6 +28,4 @@
 
     programs.bash.enable = true;
     home.stateVersion = "24.05";
-
-
 }

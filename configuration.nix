@@ -8,6 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # Include separate wireguard config
+      ./modules/wireguard.nix
     ];
   
   # Nix Settings
@@ -16,6 +18,11 @@
     substituters = ["https://nix-gaming.cachix.org"];
     trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
   };
+
+  # Osu! needs this
+  # environment.systemPackages = with pkgs; [
+  #   gamemode
+  # ];
   
   # Bootloader.
   boot.supportedFilesystems = ["ntfs"];
@@ -56,6 +63,12 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+
+  # Install flatpak for apps like steamlink
+  services.flatpak.enable = true;
+
+  # Enable waydroid vor native android on linux
+  virtualisation.waydroid.enable = true;
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -106,7 +119,7 @@
   users.users.jd = {
     isNormalUser = true;
     description = "JD";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" ];
     packages = with pkgs; [
     #  thunderbird
     ];

@@ -1,6 +1,4 @@
 {
-    description = "A very basic flake";
-
     inputs.nixos-hardware.url = "github:NixOS/nixos-hardware/master";#surface-flake
 
     inputs = {
@@ -9,10 +7,8 @@
             url = "github:nix-community/home-manager/release-24.11";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-
         nixpkgs.url = "nixpkgs/nixos-24.11";
         nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
-
         nix-gaming.url = "github:fufexan/nix-gaming";
     };
 
@@ -51,7 +47,7 @@
                         # Add osu-stable here
                         {
                             environment.systemPackages = [
-                                nix-gaming.packages.${system}.osu-stable
+                                nix-gaming.packages.${system}.osu-lazer-bin
                             ];
                         }
                     ];
