@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       # Include separate wireguard config
-      ./modules/wireguard.nix
+      #./modules/wireguard.nix
     ];
   
   # Nix Settings
@@ -89,6 +89,18 @@
         Driver "libinput"
     EndSection
   ''];
+
+  # Configure NTP
+  services.chrony = {
+    enable = true;
+
+    # Replace with your preferred NTP servers
+    servers = [
+      "pool.ntp.org"
+      "time.google.com"
+      "ntp1.example.com"
+    ];
+  };
 
   # Configure console keymap
   console.keyMap = "de";
