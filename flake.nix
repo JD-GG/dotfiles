@@ -43,6 +43,12 @@
                             };
 
                         }
+
+                        {
+                            virtualisation.docker.enable = true;
+                            users.users.jd.extraGroups = [ "docker" ];
+                        }
+                        
                         nixos-hardware.nixosModules.microsoft-surface-pro-intel
                         # Add osu-stable here
                         {

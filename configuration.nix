@@ -11,7 +11,7 @@
       # Include separate wireguard config
       #./modules/wireguard.nix
     ];
-  
+
   # Nix Settings
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ]; # Lets me use nix develop
@@ -44,7 +44,10 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Europe/Berlin";
+  # time.timeZone = "Europe/Berlin";
+
+  # Fix time issue with dualboot
+  time.hardwareClockInLocalTime = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -63,6 +66,10 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+
+  # Enable fingerprint logon
+  # to Add fingerprint `sudo fprintd-enroll $USER`
+  services.fprintd.enable = true;
 
   # Install flatpak for apps like steamlink
   services.flatpak.enable = true;

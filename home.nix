@@ -4,7 +4,8 @@
         vscode
         gh
         python3
-        flameshot
+        discord
+        postman
     ];
 
     programs.git = {
