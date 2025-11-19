@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib,... }:
 
 {
   imports =
@@ -23,6 +23,11 @@
   # environment.systemPackages = with pkgs; [
   #   gamemode
   # ];
+
+  # Network problems. Disable the culprit
+  systemd.services.NetworkManager-wait-online.enable = false;
+  networking.dhcpcd.wait = "background";
+  networking.dhcpcd.extraConfig = "noarp";
   
   # Bootloader.
   boot.supportedFilesystems = ["ntfs"];
@@ -43,11 +48,20 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  # time.timeZone = "Europe/Berlin";
-
   # Fix time issue with dualboot
-  time.hardwareClockInLocalTime = true;
+  time.hardwareClockInLocalTime = false;
+  time.timeZone = "Europe/Berlin";
+  services.chrony = {
+    enable = true;
+    # Replace with your preferred NTP servers
+    servers = [
+      "pool.ntp.org"
+      "time.google.com"
+      "ntp1.example.com"
+    ];
+  };
+  # This only steps the clock once on boot if needed. After that, it slews slowly
+  services.chrony.extraConfig = ''makestep 0.1 1'';
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -75,11 +89,14 @@
   services.flatpak.enable = true;
 
   # Enable waydroid vor native android on linux
-  virtualisation.waydroid.enable = true;
+  # virtualisation.waydroid.enable = false;
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
+  # Use Hyperland as desktop manager
+  programs.hyprland.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -97,38 +114,21 @@
     EndSection
   ''];
 
-  # Configure NTP
-  services.chrony = {
-    enable = true;
-
-    # Replace with your preferred NTP servers
-    servers = [
-      "pool.ntp.org"
-      "time.google.com"
-      "ntp1.example.com"
-    ];
-  };
-
   # Configure console keymap
   console.keyMap = "de";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
+  # Audio stack
+  services.pulseaudio.enable = false;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    wireplumber.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -146,6 +146,9 @@
 
   # Install firefox.
   programs.firefox.enable = true;
+
+  # Install iotop
+  programs.iotop.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

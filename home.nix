@@ -1,11 +1,16 @@
-{config, pkgs, pkgs-unstable,  ... }: {
+{config, pkgs, pkgs-unstable, inputs, ... }: {
 
     home.packages = with pkgs; [ 
         vscode
-        gh
         python3
-        discord
+        nerd-fonts.jetbrains-mono
+        platformio
+        github-desktop
         postman
+        kicad
+        discord
+        inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso
+        kitty
     ];
 
     programs.git = {
@@ -17,12 +22,19 @@
       };
     };
 
+    programs.starship = {
+      enable = true;
+      settings = pkgs.lib.importTOML ./home/pastel-powerline.toml;
+    };
+
 
     home.username = "jd";
     home.homeDirectory = "/home/jd";
     home.shellAliases = {
       dev = "cd /home/jd/Documents/GitHub";
       switch = "sudo nixos-rebuild switch --flake /home/jd/dotfiles#";
+      dhbw-vpn = "openconnect-sso --server vpn.dhbw-heidenheim.de --authgroup Studenten+Externe-MFA";
+      nd = "nix develop";
     };
 
     programs.home-manager.enable = true;

@@ -4,15 +4,20 @@
     inputs = {
 
         home-manager = {
-            url = "github:nix-community/home-manager/release-24.11";
+            url = "github:nix-community/home-manager/release-25.05";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        nixpkgs.url = "nixpkgs/nixos-24.11";
+        nixpkgs.url = "nixpkgs/nixos-25.05";
         nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
         nix-gaming.url = "github:fufexan/nix-gaming";
+        openconnect-sso = {
+            url = "github:jcszymansk/openconnect-sso";
+            inputs.nixpkgs.follows = "nixpkgs-openconnect-sso";
+        };
+        nixpkgs-openconnect-sso.url = "github:nixos/nixpkgs/46397778ef1f73414b03ed553a3368f0e7e33c2f";
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, nix-gaming, ... }@inputs:
+    outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware, nix-gaming, openconnect-sso, ... }@inputs:
         let
             system = "x86_64-linux";
             pkgs = import nixpkgs {
@@ -39,7 +44,7 @@
                             home-manager.useUserPackages = true;
                             home-manager.users.jd = import ./home.nix;
                             home-manager.extraSpecialArgs = {
-                                inherit pkgs-unstable;
+                                inherit inputs pkgs-unstable;
                             };
 
                         }
