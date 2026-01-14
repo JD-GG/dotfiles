@@ -8,8 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # Include separate wireguard config
-      #./modules/wireguard.nix
+      # Include security packages from git repo
+      ./port-scanners.nix
     ];
 
   # Nix Settings
@@ -47,6 +47,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.firewall.allowedTCPPorts = [ 8080 ];
 
   # Fix time issue with dualboot
   time.hardwareClockInLocalTime = false;
@@ -149,6 +150,14 @@
 
   # Install iotop
   programs.iotop.enable = true;
+
+  # Install Steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

@@ -11,6 +11,7 @@
         discord
         inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso
         kitty
+        arduino-ide
     ];
 
     programs.git = {
@@ -35,6 +36,7 @@
       switch = "sudo nixos-rebuild switch --flake /home/jd/dotfiles#";
       dhbw-vpn = "openconnect-sso --server vpn.dhbw-heidenheim.de --authgroup Studenten+Externe-MFA";
       nd = "nix develop";
+      nix-clean = "nix-collect-garbage -d";
     };
 
     programs.home-manager.enable = true;
