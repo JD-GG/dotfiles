@@ -12,6 +12,7 @@
         inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso
         kitty
         arduino-ide
+        direnv
     ];
 
     programs.git = {
