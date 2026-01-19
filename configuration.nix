@@ -37,7 +37,6 @@
   ];
   # Enable ADB for android development
   programs.adb.enable = true;
-  users.users.jd.extraGroups = [ "adbusers" ];
 
   # Osu! needs this
   # environment.systemPackages = with pkgs; [
@@ -159,7 +158,7 @@
   users.users.jd = {
     isNormalUser = true;
     description = "JD";
-    extraGroups = [ "networkmanager" "wheel" "dialout" ];
+    extraGroups = [ "networkmanager" "wheel" "dialout" "adbusers"];
     packages = with pkgs; [
     #  thunderbird
     ];
