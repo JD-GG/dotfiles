@@ -23,6 +23,22 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
+  # Enable nix-ld to allow running non-nix applications that depend on shared libraries
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    fuse3
+    icu
+    nss
+    openssl
+    curl
+    expat
+  ];
+  # Enable ADB for android development
+  programs.adb.enable = true;
+  users.users.jd.extraGroups = [ "adbusers" ];
+
   # Osu! needs this
   # environment.systemPackages = with pkgs; [
   #   gamemode
