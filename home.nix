@@ -13,6 +13,9 @@
         kitty
         arduino-ide
         direnv
+        gnome-keyring
+        android-studio
+        javaPackages.compiler.openjdk21
     ];
 
     programs.git = {
